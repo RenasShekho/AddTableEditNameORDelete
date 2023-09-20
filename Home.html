@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Table For Name data</title>
+    <link rel="stylesheet" href="/Css/home.css">
+    <script src="/JavaScript/Home.js"></script>
+    <style>
+        .container {
+            overflow: hidden;
+        }
+
+        .tab {
+
+            margin: 20px;
+        }
+
+
+        tr {
+            transition: all.25s ease-in-out;
+        }
+
+        tr:hover {
+            background-color: #eee;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+    ID:<input type="text" name="id" id="Id">
+    Fitst Name:<input type="text" name="fname" id="Fname">
+    Last Name:<input type="text" name="lname" id="Lname">
+
+    <button onclick="addTableRow()">Add</button>
+    <button onclick="editHtmlTableSelectedRow()">Save changes</button>
+    <button onclick="removeSelectedRow()">Remove</button>
+
+        <div class="tab tab-1">
+            <table id="table">
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+        var rIndex,
+            table = document.getElementById("table");
+
+        //check the empty input
+        function CheakEmptyInput() {
+            var isEmpty = false,
+                id = document.getElementById("Id").value,
+                fname = document.getElementById("Fname").value,
+                lname = document.getElementById("Lname").value;
+
+            if (id === "") {
+                alert("ID cannot be empty")
+                isEmpty = true;
+            }
+            else if (fname === "") {
+                alert("First name cannot be empty")
+                isEmpty = true;
+            }
+            else if (lname === "") {
+                alert("Last name cannot be empty")
+                isEmpty = true;
+            }
+
+            return isEmpty;
+        }
+        //Add row 
+        function addTableRow() {
+            // get the table by id
+            // cretae a new row and cells
+            //get value from input text
+            // set the value into row cell´s
+            if (!CheakEmptyInput()) {
+                var newRow = table.insertRow(table.length),
+                    Cell1 = newRow.insertCell(0),
+                    Cell2 = newRow.insertCell(1),
+                    Cell3 = newRow.insertCell(2),
+                    id = document.getElementById("Id").value,
+                    fname = document.getElementById("Fname").value,
+                    lname = document.getElementById("Lname").value;
+                Cell1.innerHTML = id;
+                Cell2.innerHTML = fname;
+                Cell3.innerHTML = lname;
+
+                // call the function th set the event to new row
+                selectedRowToInput();
+                // console.log(Cell1);
+            }
+        }
+        function selectedRowToInput() {
+            for (var i = 1; i < table.rows.length; i++) {
+                table.rows[i].onclick = function () {
+                    rIndex = this.rowIndex;
+                    // console.log(rIndex);
+                    document.getElementById("Id").value = this.cells[0].innerHTML;
+                    document.getElementById("Fname").value = this.cells[1].innerHTML;
+                    document.getElementById("Lname").value = this.cells[2].innerHTML;
+                }
+            
+            };
+        }
+        function editHtmlTableSelectedRow() {
+            var id = document.getElementById("Id").value,
+                fname = document.getElementById("Fname").value,
+                lname = document.getElementById("Lname").value;
+
+            table.rows[rIndex].cells[0].innerHTML = id;
+            table.rows[rIndex].cells[1].innerHTML = fname;
+            table.rows[rIndex].cells[2].innerHTML = lname;
+
+        }
+        function removeSelectedRow() {
+          
+          //delete row
+          if(rowIndex =>0){alert("there is no selected row to delete")}
+          else if(rowIndex >1){
+            table.deleteRow(rIndex);}
+          
+            //clear input text
+            document.getElementById("Id").value = "";
+            document.getElementById("Fname").value = "";
+            document.getElementById("Lname").value = "";
+        }
+
+    </script>
+</body>
+</html>
